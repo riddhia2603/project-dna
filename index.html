@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Project DNA · The Continuum</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#132f2b;--mute:#5d6b68;--bg:#f7f5ef;--card:#fff;--coral:#ef7560;--coral-l:#fce3dd;--pur:#7a6aaa;--pur-l:#ebe4f4;--grn:#3e8b68;--grn-l:#daede3;--blu:#4a8499;--blu-l:#dfebf0;--gold:#a8812a;--gold-l:#f6efd6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Lato,system-ui,sans-serif;line-height:1.45}
+body::before{content:"";display:block;height:8px;background:linear-gradient(90deg var(--coral) 0 80%,var(--pur) 80% 90%,var(--grn) 90%);background:linear-gradient(90deg,#ef7560 80%,#7a6aaa 80% 90%,#3e8b68 90%)}
+main{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+h1{font-size:clamp(2rem,5vw,3.2rem);margin:0;font-weight:900;letter-spacing:-.5px}
+.tag{font-style:italic;font-weight:700;color:var(--coral);font-size:1.15rem;margin:.2rem 0 1.2rem}
+.steps{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.step{flex:1;min-width:130px;padding:10px 14px;border-radius:12px;background:#e9e7df;color:var(--mute);font-weight:700;font-size:.9rem;border:0;text-align:left;cursor:pointer;font-family:inherit}
+.step.on{background:var(--ink);color:#fff}.step.done{background:var(--grn-l);color:var(--grn)}
+.step small{display:block;font-weight:400;opacity:.85}
+.panel{background:var(--card);border-radius:16px;padding:20px;box-shadow:0 2px 10px #0001;margin-bottom:18px}
+.panel h2{margin:0 0 6px;font-size:1.3rem}
+.panel p{margin:.2rem 0 .8rem;color:var(--mute)}
+textarea{width:100%;min-height:210px;font:12.5px/1.5 ui-monospace,Menlo,Consolas,monospace;border:1.5px solid #d9d6cc;border-radius:10px;padding:10px;background:#fcfbf8;color:var(--ink)}
+button.btn{background:var(--ink);color:#fff;border:0;border-radius:999px;padding:10px 20px;font:700 .95rem Lato,sans-serif;cursor:pointer}
+button.btn.alt{background:var(--coral-l);color:#b3432f}
+button.btn:disabled{opacity:.35;cursor:not-allowed}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--pur);outline-offset:2px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.hint{font-size:.82rem;color:var(--mute)}
+.bar{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;background:#f0eee6;border-radius:14px 14px 0 0;padding:12px 16px;font-weight:700}
+.badge{border-radius:999px;padding:5px 14px;font-size:.78rem;font-weight:900;letter-spacing:.4px}
+.draft{background:var(--gold-l);color:var(--gold)}.live{background:var(--grn-l);color:var(--grn)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;padding:14px;background:#fff;border-radius:0 0 14px 14px}
+.col{border-radius:14px;padding:14px}
+.col h3{margin:0;font-size:.78rem;letter-spacing:1.2px;text-transform:uppercase}
+.col h4{margin:2px 0 10px;font-size:1.1rem}
+.c1{background:var(--grn-l)}.c1 h3{color:var(--grn)}.c2{background:var(--coral-l)}.c2 h3{color:#c4503b}.c3{background:var(--blu-l)}.c3 h3{color:var(--blu)}
+.it{background:#fff;border-radius:10px;padding:9px 12px;margin-bottom:8px;box-shadow:0 1px 4px #0001}
+.it b{display:block}.it span{font-size:.82rem;color:var(--mute)}
+.it.flag{background:var(--gold-l);border-left:5px solid var(--gold)}
+.it.flag span.m{color:var(--gold);font-weight:700}
+.it.fixed{background:var(--grn-l);border-left:5px solid var(--grn)}
+.it.conf{background:var(--coral-l);border-left:5px solid var(--coral)}
+.fix{display:flex;gap:6px;margin-top:6px}
+.fix input{flex:1;border:1px solid #cfc8b4;border-radius:8px;padding:6px 8px;font:inherit;font-size:.85rem}
+.fix button{border:0;background:var(--gold);color:#fff;border-radius:8px;padding:6px 12px;font-weight:700;cursor:pointer}
+.d{display:inline-block;background:var(--grn);color:#fff;border-radius:999px;padding:1px 9px;font-size:.72rem;font-weight:700;margin-right:6px}
+label.ck{display:flex;gap:10px;align-items:center;padding:8px 0;font-weight:700}
+.note{background:var(--grn-l);border-radius:10px;padding:10px 14px;font-weight:700;margin:12px 0 0;text-align:center}
+.warn{background:var(--coral-l);color:#b3432f}
+.ans{margin-top:12px}.ans .it{border-left:5px solid var(--pur)}
+input.q{width:100%;padding:10px 14px;border-radius:999px;border:1.5px solid #d9d6cc;font:inherit}
+@media print{.steps,.noprint{display:none}}
+</style>
+</head>
+<body>
+<main>
+  <h1>PROJECT DNA</h1>
+  <div class="tag">The living blueprint of every project.</div>
+  <div class="steps" id="steps"></div>
+  <div id="ctrl"></div>
+  <div id="report"></div>
+</main>
+
+<script>
+const OUT = "Dev A", IN = "Dev B";
+const SAMPLE = `# date | source | owner | type | text | extras (key=value; ...)
+12 Aug | Task #41 | Dev A | task-done | Auth module completed
+14 Aug | Meeting notes | Dev A | decision | Database moved to PostgreSQL | approver=Lead; reason=reporting needs; topic=database
+14 Aug | Design doc v2 | Lead | rejected | Alternative considered: MongoDB | topic=database
+20 Aug | Chat | Dev C | decision | Staging environment still runs on MongoDB | approver=Dev C; reason=not migrated yet; topic=database
+02 Sep | Issue #17 | Dev A | task-open | Payment webhook in progress
+02 Sep | Issue #17 | Dev A | workaround | Retry logic on webhook | temporary=yes
+05 Sep | Chat | Dev A | decision | Switch of auth provider
+10 Sep | Chat | Team Lead | request | Handover requested
+- | Task #44 | Dev C | dependency | Frontend features | dependsOn=Payments API
+- | Access notes | Dev A | knowledge | Setup and access notes
+- | Chat | - | question | Open question: staging database`;
+
+let S = {step:1, text:SAMPLE, items:[], oc:false, ic:false, acc:false, approved:false, q:""};
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const STATUS = {"task-done":"Done","task-open":"Open",decision:"Decided",rejected:"Rejected",request:"Pending",workaround:"Workaround",dependency:"Dependency",knowledge:"Needs handover",question:"Open question",note:"Note"};
+
+function parse(t){
+  return t.split("\n").map(l=>l.trim()).filter(l=>l && !l.startsWith("#")).map((l,i)=>{
+    const p = l.split("|").map(s=>s.trim()), ex = {};
+    (p[5]||"").split(";").forEach(kv=>{ const [k,...v]=kv.split("="); if(k.trim()) ex[k.trim()] = v.length ? v.join("=").trim() : "yes"; });
+    return {id:i, date:p[0]||"-", source:p[1]||"-", owner:p[2]||"-", type:(p[3]||"note").toLowerCase(), text:p[4]||"", ex, flags:[], res:""};
+  });
+}
+function verify(){
+  S.items.forEach(i=>{
+    i.flags = [];
+    if(i.type==="decision" && (!i.ex.approver || !i.ex.reason)) i.flags.push({k:"gap", m:"Approver and reason not recorded"});
+    if(i.type==="workaround") i.flags.push({k:"gap", m:"Temporary workaround · needs follow-up"});
+    if(i.type==="knowledge" && i.owner===OUT) i.flags.push({k:"gap", m:"Owner leaving · needs reassignment"});
+    if(i.owner==="-" && i.type!=="request") i.flags.push({k:"gap", m:"No owner found"});
+    if(i.type==="decision" && i.ex.topic){
+      const o = S.items.find(x=>x!==i && x.type==="decision" && x.ex.topic===i.ex.topic && x.text!==i.text);
+      if(o) i.flags.push({k:"conf", m:`Conflicts with "${o.text}" (${o.source}, ${o.date})`});
+    }
+  });
+}
+const open = i => i.flags.length && !i.res;
+const nOpen = () => S.items.filter(open).length;
+
+function card(i, flags){
+  const f = flags && i.flags.length;
+  const cls = f ? (i.res ? "fixed" : (i.flags[0].k==="conf" ? "conf" : "flag")) : "";
+  let meta = `${esc(i.owner)} · ${STATUS[i.type]||i.type}${i.ex.dependsOn?" on "+esc(i.ex.dependsOn):""} · Source: ${esc(i.source)}`;
+  let extra = "";
+  if(i.type==="decision" && i.ex.approver) extra = `<br><span>Approved by ${esc(i.ex.approver)} · Reason: ${esc(i.ex.reason||"not recorded")}</span>`;
+  let fl = "";
+  if(f){
+    fl = i.flags.map(x=>`<br><span class="m">⚠ ${esc(x.m)}</span>`).join("");
+    if(i.res) fl += `<br><span>✔ Confirmed by reviewer: ${esc(i.res)}</span>`;
+    else if(S.step===3) fl += `<div class="fix"><input aria-label="Reviewer note" id="r${i.id}" placeholder="Add the missing detail or decision"><button data-fix="${i.id}">Confirm</button></div>`;
+  }
+  const d = i.date!=="-" ? `<span class="d">${esc(i.date)}</span>` : "";
+  return `<div class="it ${cls}"><b>${d}${esc(i.text)}</b><span>${meta}</span>${extra}${fl}</div>`;
+}
+function view(flags){
+  const L = a => a.length ? a.map(i=>card(i,flags)).join("") : `<div class="hint">Nothing found in sources.</div>`;
+  const tl = S.items.filter(i=>i.date!=="-");
+  const dt = S.items.filter(i=>["decision","rejected","workaround"].includes(i.type));
+  const rw = S.items.filter(i=>["task-done","task-open","dependency","knowledge","question"].includes(i.type));
+  return `<div class="grid">
+    <div class="col c1"><h3>Project timeline</h3><h4>What happened, and when?</h4>${L(tl)}</div>
+    <div class="col c2"><h3>Decision trail</h3><h4>Why was it done this way?</h4>${L(dt)}</div>
+    <div class="col c3"><h3>Responsibility web</h3><h4>What depends on whom?</h4>${L(rw)}</div></div>`;
+}
+function ask(){
+  const q = S.q.toLowerCase().split(/\s+/).filter(w=>w.length>2);
+  if(!q.length) return "";
+  const hits = S.items.filter(i=>q.some(w=>(i.text+" "+i.owner+" "+i.source+" "+JSON.stringify(i.ex)).toLowerCase().includes(w)));
+  return `<div class="ans">${hits.length ? hits.map(i=>`<div class="it"><b>${esc(i.text)}</b><span>${esc(i.owner)} · ${esc(i.date)} · Source: ${esc(i.source)}${i.ex.reason?" · Reason: "+esc(i.ex.reason):""}</span></div>`).join("") : '<div class="hint">No source found. The answer is not in the uploaded material.</div>'}</div>`;
+}
+
+function render(){
+  const names = [["Upload","Add sources"],["Reconstruct","Build the record"],["Verify","Flag gaps"],["Approve","Humans sign off"]];
+  $("steps").innerHTML = names.map((n,k)=>{const s=k+1; const can = s===1 || S.items.length;
+    return `<button class="step ${S.step===s?"on":S.step>s?"done":""}" data-step="${s}" ${can?"":"disabled"}>${s}. ${n[0]}<small>${n[1]}</small></button>`}).join("");
+
+  let c = "";
+  if(S.step===1) c = `<div class="panel"><h2>Upload authorised sources</h2>
+    <p>Paste task exports, meeting notes or chat lines for one project — or upload a .txt/.csv file. Format: <code>date | source | owner | type | text | key=value; key=value</code></p>
+    <textarea id="txt" aria-label="Project sources">${esc(S.text)}</textarea>
+    <div class="row"><input type="file" id="file" accept=".txt,.csv,.md"><button class="btn alt" id="sample">Reset to sample (Payments API)</button><button class="btn" id="go">Reconstruct project →</button></div>
+    <p class="hint">Types: task-done, task-open, decision, rejected, workaround, request, dependency, knowledge, question. Prototype uses rule-based extraction; the production build swaps this step for an LLM.</p></div>`;
+  if(S.step===2) c = `<div class="panel"><h2>Reconstructed from ${S.items.length} source items</h2><p>Timeline, decision trail and responsibility web were built from your uploads. Next, check every claim.</p>
+    <button class="btn" id="tov">Verify claims →</button></div>`;
+  if(S.step===3){ const n=nOpen(); c = `<div class="panel"><h2>Verify: ${n} item${n===1?"":"s"} need${n===1?"s":""} a human</h2>
+    <p>Every item shows its source. Gaps and conflicts are never hidden — confirm each one with the missing detail, or leave it open for the next step.</p>
+    <button class="btn" id="toa">Go to approval →</button></div>`; }
+  if(S.step===4){ const n=nOpen();
+    c = S.approved ? `<div class="panel noprint"><h2>Handover approved and live for ${IN}</h2><p>Only this approved version is visible to the incoming teammate.</p>
+      <div class="row"><button class="btn" id="print">Print / save as PDF</button><button class="btn alt" id="copy">Copy report text</button><button class="btn alt" id="reset">Start over</button></div></div>`
+    : `<div class="panel"><h2>Human approval required</h2><p>No unreviewed handover is silently published.</p>
+      <label class="ck"><input type="checkbox" id="oc" ${S.oc?"checked":""}> ${OUT} (outgoing) has reviewed the report</label>
+      <label class="ck"><input type="checkbox" id="ic" ${S.ic?"checked":""}> ${IN} (incoming) has reviewed the report</label>
+      ${n?`<label class="ck"><input type="checkbox" id="acc" ${S.acc?"checked":""}> I accept that ${n} flagged item${n===1?"":"s"} stay open and visible</label>`:""}
+      <div class="row"><button class="btn" id="appr" ${S.oc&&S.ic&&(!n||S.acc)?"":"disabled"}>Approve and publish</button><button class="btn alt" id="back">← Back to verify</button></div></div>`; }
+  $("ctrl").innerHTML = c;
+
+  if(S.step>=2){
+    const flags = S.step>=3;
+    $("report").innerHTML = `<div class="panel" style="padding:0"><div class="bar"><span>Handover report · Payments API · ${OUT} → ${IN}</span>
+      <span class="badge ${S.approved?"live":"draft"}">${S.approved?"APPROVED · LIVE":"DRAFT · AWAITING APPROVAL"}</span></div>${view(flags)}
+      <div style="padding:0 14px 14px"><div class="note ${flags&&nOpen()?"warn":""}">${flags?(nOpen()?`${nOpen()} gap${nOpen()===1?"":"s"} or conflict${nOpen()===1?"":"s"} still open for human review.`:"All flagged items confirmed."):"Important claims link to evidence."}</div>
+      <div class="noprint" style="margin-top:14px"><b>Ask the project</b><input class="q" id="q" placeholder="e.g. why PostgreSQL? who owns the frontend?" value="${esc(S.q)}">${ask()}</div></div></div>`;
+  } else $("report").innerHTML = "";
+  bind();
+}
+
+function bind(){
+  document.querySelectorAll("[data-step]").forEach(b=>b.onclick=()=>{S.step=+b.dataset.step;render()});
+  document.querySelectorAll("[data-fix]").forEach(b=>b.onclick=()=>{const i=S.items[+b.dataset.fix],v=$("r"+i.id).value.trim(); if(v){i.res=v;render()}});
+  const on=(id,f)=>{const e=$(id); if(e) e.onclick=f};
+  on("go",()=>{S.text=$("txt").value;S.items=parse(S.text);if(!S.items.length){alert("Add at least one source line.");return}verify();S.approved=false;S.oc=S.ic=S.acc=false;S.step=2;render()});
+  on("sample",()=>{S.text=SAMPLE;render()});
+  on("tov",()=>{S.step=3;render()}); on("toa",()=>{S.step=4;render()}); on("back",()=>{S.step=3;render()});
+  on("appr",()=>{S.approved=true;render()}); on("print",()=>window.print());
+  on("reset",()=>{S={step:1,text:SAMPLE,items:[],oc:false,ic:false,acc:false,approved:false,q:""};render()});
+  on("copy",()=>{const t=S.items.map(i=>`${i.date} | ${i.text} | ${i.owner} | Source: ${i.source}${i.res?" | Confirmed: "+i.res:i.flags.length?" | ⚠ "+i.flags.map(f=>f.m).join("; "):""}`).join("\n");try{navigator.clipboard.writeText(t)}catch(e){}});
+  ["oc","ic","acc"].forEach(k=>{const e=$(k); if(e) e.onchange=()=>{S[k]=e.checked;render()}});
+  const f=$("file"); if(f) f.onchange=()=>{const r=new FileReader();r.onload=()=>{S.text=r.result;render()};if(f.files[0])r.readAsText(f.files[0])};
+  const q=$("q"); if(q) q.oninput=()=>{S.q=q.value;const p=q.selectionStart;render();const n=$("q");n.focus();n.setSelectionRange(p,p)};
+}
+render();
+</script>
+</body>
+</html>
